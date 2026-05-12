@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>テキストダウンロードツール</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #2ea44f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2c974b;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>テキスト保存ツール</h1>
+        
+        <label for="text-input"><strong>テキストを入力:</strong></label>
+        <textarea id="text-input" rows="10" placeholder="ここに保存したいテキストを入力してください..."></textarea>
+
+        <label for="filename-input"><strong>ファイル名:</strong></label>
+        <input type="text" id="filename-input" value="memo.txt" placeholder="例: mytext.txt">
+
+        <button id="download-btn">.txt ファイルをダウンロード</button>
+    </div>
+
+    <script>
+        document.getElementById('download-btn').addEventListener('click', function() {
+        
+            const textContent = document.getElementById('text-input').value;
+            let fileName = document.getElementById('filename-input').value;
+
+            
+            if (!fileName.trim()) {
+                fileName = 'download.txt';
+            }
+
+            const blob = new Blob([textContent], { type: 'text/plain' });
+
+         
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click(); 
+
+       
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    </script>
+
+</body>
+</html>
